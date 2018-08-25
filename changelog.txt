@@ -1,0 +1,4 @@
+*** Auto Load Next Post: Support Boilerplate ***
+
+25th August 2018 - Version 1.0.0
+* Initial release.
