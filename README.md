@@ -16,7 +16,7 @@ If they are predefined to the theme you are supporting then they will be applied
 
 Change only the theme selectors that need changing. Leave the others as they are.
 
-![#]()
+![Add Theme Support](https://raw.githubusercontent.com/AutoLoadNextPost/alnp-support-boilerplate/master/add-theme-support.png)
 
 #### 2. Template Location
 
