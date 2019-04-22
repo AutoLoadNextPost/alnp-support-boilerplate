@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: Auto Load Next Post: Support Boilerplate
- * Plugin URI:  https://github.com/AutoLoadNextPost/alnp-support-boilerplate
+ * Plugin URI:  https://github.com/autoloadnextpost/alnp-support-boilerplate
  * Description: Boilerplate for providing theme support for Auto Load Next Post.
  * Author: Auto Load Next Post
  * Author URI: https://autoloadnextpost.com
@@ -11,7 +11,7 @@
  * Text Domain: alnp-support-boilerplate
  * Domain Path: /languages/
  *
- * Copyright: © 2018 Sébastien Dumont
+ * Copyright: © 2019 Sébastien Dumont
  *
  * License: GNU General Public License v3.0
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -49,7 +49,7 @@ if ( ! class_exists( 'ALNP_Support_Boilerplate' ) ) {
 		 * @access public
 		 * @since  1.0.0
 		 */
-		public $required_alnp = '1.5.0';
+		public static $required_alnp = '1.5.2';
 
 		/**
 		 * Main ALNP_Support_Boilerplate Instance.
@@ -134,7 +134,7 @@ if ( ! class_exists( 'ALNP_Support_Boilerplate' ) ) {
 		 * @return bool
 		 */
 		public function check_required_version() {
-			if ( ! defined( 'AUTO_LOAD_NEXT_POST_VERSION' ) || version_compare( AUTO_LOAD_NEXT_POST_VERSION, $this->required_alnp, '<' ) ) {
+			if ( ! defined( 'AUTO_LOAD_NEXT_POST_VERSION' ) || version_compare( AUTO_LOAD_NEXT_POST_VERSION, self::$required_alnp, '<' ) ) {
 				add_action( 'admin_notices', array( $this, 'alnp_not_installed' ) );
 				return false;
 			}
@@ -148,7 +148,7 @@ if ( ! class_exists( 'ALNP_Support_Boilerplate' ) ) {
 		 * @return void
 		 */
 		public function alnp_not_installed() {
-			echo '<div class="error"><p>' . sprintf( __( 'Auto Load Next Post: Support Boilerplate requires $%1s v%2$s or higher to be installed.', 'alnp-support-boilerplate' ), '<a href="https://autoloadnextpost.com/" target="_blank">Auto Load Next Post</a>', $this->required_alnp ) . '</p></div>';
+			echo '<div class="error"><p>' . sprintf( __( 'Auto Load Next Post: Support Boilerplate requires $%1s v%2$s or higher to be installed.', 'alnp-support-boilerplate' ), '<a href="https://autoloadnextpost.com/" target="_blank">Auto Load Next Post</a>', self::$required_alnp ) . '</p></div>';
 		} // END alnp_not_installed()
 
 		/***
@@ -172,13 +172,14 @@ if ( ! class_exists( 'ALNP_Support_Boilerplate' ) ) {
 		} // END add_theme_support()
 
 		/**
-		 * Filters the location of the repeater template to override the default repeater template.
+		 * Filters the location of the repeater template to 
+		 * override the default repeater template.
 		 *
 		 * @access public
 		 * @return string
 		 */
 		public function template_redirect() {
-			return dirname( plugin_basename( __FILE__ ) ) . '/content-alnp.php';
+			return dirname( __FILE__ ) . '/content-alnp.php';
 		} // END template_redirect()
 
 		/**
@@ -190,10 +191,6 @@ if ( ! class_exists( 'ALNP_Support_Boilerplate' ) ) {
 		public function alnp_template_location() {
 			return '';
 		} // END alnp_template_location()
-
-		/*-----------------------------------------------------------------------------------*/
-		/*  Helper Functions                                                                 */
-		/*-----------------------------------------------------------------------------------*/
 
 		/**
 		 * Updates the theme selectors and any additionl supported feature.
@@ -207,15 +204,11 @@ if ( ! class_exists( 'ALNP_Support_Boilerplate' ) ) {
 				// Preferred implementation, where theme provides an array of options
 				if ( isset( $theme_support[0] ) && is_array( $theme_support[0] ) ) {
 					foreach( $theme_support[0] as $key => $value ) {
-						if ( ! empty( $value ) ) update_option( 'auto_load_next_post_' . $key, $value );
+						update_option( 'auto_load_next_post_' . $key, $value );
 					}
 				}
 			}
 		} // END update_alnp_settings()
-
-		/*-----------------------------------------------------------------------------------*/
-		/*  Localization                                                                     */
-		/*-----------------------------------------------------------------------------------*/
 
 		/**
 		 * Make the plugin translation ready.
